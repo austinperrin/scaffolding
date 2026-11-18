@@ -125,6 +125,17 @@ flowchart LR
    title. GitHub settings that enforce this workflow are separate from the written
    policy; configure and verify them for the repository.
 
+### Fork Pull Requests
+
+Before opening a PR from a personal fork, review GitHub's **Allow edits and access
+to secrets by maintainers** checkbox; do not assume it is off. When selected, it
+lets people with write access to the base repository edit the PR branch in the
+fork. If that fork contains Actions workflows, those edits can expose secrets in
+the fork. Leave the option off unless the fork owner intends to grant that access.
+The fork owner can change it on the PR after opening it. This option does not
+grant the fork author write access to the base repository or replace any required
+approval for running fork PR workflows. See [GitHub's fork branch guidance](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork).
+
 ## Implementation and Verification
 
 Follow the [external platform guidance](README.md#external-platform-guidance)
