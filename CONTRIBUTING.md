@@ -51,6 +51,8 @@ Work in a checkout of this repository or a fork when you do not have write acces
 Use a topic branch and the [Git workflow](docs/standards/git-workflow.md) to prepare
 and submit a focused change. If contributing from a fork, confirm that the pull
 request targets `main` in the repository you intend to change.
+Review the [fork PR permission option](docs/standards/git-workflow.md#fork-pull-requests)
+before opening a PR from your fork.
 
 Use an editor that respects [`.editorconfig`](.editorconfig). Review the files
 included in the proposed commit and keep its documentation and dependencies
