@@ -35,3 +35,5 @@ The [Code of Conduct](CODE_OF_CONDUCT.md) sets community expectations, and the
 ## License
 
 Distributed under the [MIT License](LICENSE).
+
+<!-- Temporary external-fork check; do not merge. -->
