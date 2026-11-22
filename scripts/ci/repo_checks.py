@@ -80,6 +80,9 @@ def local_target(root, source, url):
   if parts.scheme or parts.netloc:
     return None
   target = unquote(parts.path)
+  if (source == root / '.github/PULL_REQUEST_TEMPLATE.md'
+      and target.startswith('../blob/HEAD/')):
+    return (root / target.removeprefix('../blob/HEAD/')).resolve()
   return (root / target.lstrip('/') if target.startswith('/') else source.parent / target).resolve() if target else source.resolve()
 
 

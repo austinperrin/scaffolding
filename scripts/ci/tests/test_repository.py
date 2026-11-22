@@ -84,6 +84,15 @@ class RepositoryTests(unittest.TestCase):
     self.assertEqual(len(errors), 1, errors)
     self.assertIn('.github/', errors[0])
 
+  def test_pull_request_body_links_resolve_from_repository(self):
+    self.write('CONTRIBUTING.md', '# Contributing\n')
+    template = self.write('.github/PULL_REQUEST_TEMPLATE.md',
+                          '# PR\n[Contributing](../blob/HEAD/CONTRIBUTING.md)\n')
+    self.assertEqual(checks.check_links(self.root), [])
+    template.write_text('# PR\n[Missing](../blob/HEAD/missing.md)\n')
+    self.assertTrue(any('missing link target' in error
+                        for error in checks.check_links(self.root)))
+
   def test_document_registration_and_hub_reachability(self):
     self.write('docs/README.md', '# Docs\n')
     self.write('docs/guides/README.md', '# Guides\n')

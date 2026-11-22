@@ -58,7 +58,7 @@ documentation after setup.
 4. Replace the title, description, and scaffold-specific introduction in the
    [root README](../../README.md) with the project's purpose and first steps.
    Keep useful paths to documentation, contribution, security, and the roadmap.
-5. Preview the one-time replacement of the source repository links and reporting
+5. Preview the one-time replacement of the issue chooser URL and reporting
    contacts. Replace the uppercase placeholders with the project's GitHub path
    and monitored addresses:
 
@@ -70,12 +70,14 @@ documentation after setup.
    ```
 
    Review every listed file. Repeat the command with `--apply` to update the
-   source URLs in `.github/` and the addresses in [SECURITY.md](../../SECURITY.md)
+   issue chooser URL in `.github/` and the addresses in [SECURITY.md](../../SECURITY.md)
    and [CODE_OF_CONDUCT.md](../../CODE_OF_CONDUCT.md). The helper refuses to run
    while `origin` still points to the scaffold.
-6. Open each resulting issue-form and pull-request-template link and confirm it
-   points to the new repository. Review the security policy's supported-version
-   and response-time statements against actual maintenance commitments. Keep the
+6. Open the issue-form and pull-request-template links in the new repository and
+   confirm they resolve there. Those Markdown links are repository-relative;
+   the issue chooser URL is updated by the helper. Review the security policy's
+   supported-version and response-time statements against actual maintenance
+   commitments. Keep the
    Contributor Covenant attribution and existing copyright notices intact.
 7. Assign real users or teams in [`.github/CODEOWNERS`](../../.github/CODEOWNERS).
    Confirm their access, then activate only the mappings the project needs. The
