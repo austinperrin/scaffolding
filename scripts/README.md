@@ -36,7 +36,7 @@ Run setup again in each new clone that should use these hooks.
 ## One-Time Project Initialization
 
 The [initialization runbook](../docs/runbooks/initialize-repository.md) owns the
-setup order. `initialize-project.py configure` previews fixed source URL and
+setup order. `initialize-project.py configure` previews the issue chooser URL and
 reporting-contact replacements; `finish` previews a project-owned Milestone 0
 record and removal of one-time files. Each stage requires `--apply` to write
 changes. The helper checks the destination GitHub remote, refuses modified

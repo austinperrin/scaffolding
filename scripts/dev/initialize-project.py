@@ -18,9 +18,6 @@ SOURCE_EMAIL = 'perrinaustin@gmail.com'
 
 URL_FILES = {
   '.github/ISSUE_TEMPLATE/config.yml': 1,
-  '.github/ISSUE_TEMPLATE/bug_report.yml': 1,
-  '.github/ISSUE_TEMPLATE/feature_request.yml': 1,
-  '.github/PULL_REQUEST_TEMPLATE.md': 2,
 }
 EMAIL_FILES = ('SECURITY.md', 'CODE_OF_CONDUCT.md')
 REMOVALS = (
@@ -207,7 +204,7 @@ def finish_plan(setup_date):
   section = (
     '## One-Time Project Initialization\n\n'
     'The [initialization runbook](../docs/runbooks/initialize-repository.md) owns the\n'
-    'setup order. `initialize-project.py configure` previews fixed source URL and\n'
+    'setup order. `initialize-project.py configure` previews the issue chooser URL and\n'
     'reporting-contact replacements; `finish` previews a project-owned Milestone 0\n'
     'record and removal of one-time files. Each stage requires `--apply` to write\n'
     'changes. The helper checks the destination GitHub remote, refuses modified\n'
@@ -287,7 +284,7 @@ def main():
     raise ValueError('Python 3.9 or newer is required.')
   parser = argparse.ArgumentParser(description=__doc__)
   commands = parser.add_subparsers(dest='command', required=True)
-  configure = commands.add_parser('configure', help='Replace source URLs and reporting contacts')
+  configure = commands.add_parser('configure', help='Replace the issue chooser URL and reporting contacts')
   configure.add_argument('--repository', required=True, help='New GitHub OWNER/REPOSITORY')
   configure.add_argument('--security-email', required=True)
   configure.add_argument('--conduct-email', required=True)

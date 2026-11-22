@@ -72,6 +72,10 @@ class ProjectInitializationTests(unittest.TestCase):
     self.prepare_finish()
     self.assertIn('https://github.com/example/project/security/policy',
                   (self.root / '.github/ISSUE_TEMPLATE/config.yml').read_text())
+    self.assertIn('../blob/HEAD/SECURITY.md',
+                  (self.root / '.github/ISSUE_TEMPLATE/bug_report.yml').read_text())
+    self.assertIn('../blob/HEAD/CONTRIBUTING.md',
+                  (self.root / '.github/PULL_REQUEST_TEMPLATE.md').read_text())
     self.assertIn('security@example.test',
                   (self.root / 'SECURITY.md').read_text())
     self.assertIn('conduct@example.test',
