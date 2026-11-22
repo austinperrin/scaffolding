@@ -72,7 +72,10 @@ documentation after setup.
    Review every listed file. Repeat the command with `--apply` to update the
    issue chooser URL in `.github/` and the addresses in [SECURITY.md](../../SECURITY.md)
    and [CODE_OF_CONDUCT.md](../../CODE_OF_CONDUCT.md). The helper refuses to run
-   while `origin` still points to the scaffold.
+   while `origin` points to the source scaffold instead of the new project's
+   repository. To keep the existing reporting address from either policy file, add
+   `--retain-source-contact` to both the preview and `--apply` commands. Confirm
+   that the address will receive reports for the new project.
 6. Open the issue-form and pull-request-template links in the new repository and
    confirm they resolve there. Those Markdown links are repository-relative;
    the issue chooser URL is updated by the helper. Review the security policy's
@@ -122,7 +125,9 @@ documentation after setup.
     python3 scripts/dev/initialize-project.py finish
     ```
 
-    Review the exact updates and removals, then repeat with `--apply`. This removes
+    If either policy file still uses its original reporting address, add
+    `--retain-source-contact` to this preview and the `--apply` command. Review
+    the exact updates and removals, then repeat with `--apply`. This removes
     the one-time runbook and helper, its tests, and the original scaffold's
     Phase 6 verification record; it updates their incoming links and replaces
     Milestone 0 with the project-owned setup summary. The helper
@@ -138,13 +143,18 @@ documentation after setup.
 
 Review the final diff and confirm that the README describes this project, the
 reporting contacts are monitored, GitHub forms point to the new repository, and
-CODEOWNERS names eligible reviewers. Search the active identity files for the
-scaffold's old URL and contact; inspect any matches before merging:
+CODEOWNERS names eligible reviewers. Search the active identity files for old
+repository URLs and placeholder owners; inspect any matches before merging:
 
 ```bash
-git grep -n -E 'austinperrin/(base|scaffolding)|perrinaustin@gmail.com|@your-maintainer|@your-org' \
+git grep -n -E 'austinperrin/(base|scaffolding)|@your-maintainer|@your-org' \
   -- README.md SECURITY.md CODE_OF_CONDUCT.md .github
 ```
+
+Check the addresses in [SECURITY.md](../../SECURITY.md) and
+[CODE_OF_CONDUCT.md](../../CODE_OF_CONDUCT.md) directly. Keep an original address
+only when you explicitly selected it during setup and confirmed it is monitored
+for this project.
 
 Run `./scripts/ci/check-links.sh` and `./scripts/ci/check-docs.sh` after editing
 navigation and after final cleanup. Record hosted CI and settings verification for

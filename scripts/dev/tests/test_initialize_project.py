@@ -147,6 +147,51 @@ class ProjectInitializationTests(unittest.TestCase):
         self.assertIn('foundation repository', result.stderr)
         self.assertEqual(self.git('status', '--porcelain').stdout, '')
 
+  def test_retaining_source_contact_requires_explicit_flag(self):
+    result = self.helper('configure', '--repository', 'example/project',
+                         '--security-email', 'perrinaustin@gmail.com',
+                         '--conduct-email', 'conduct@example.test',
+                         '--apply', check=False)
+    self.assertNotEqual(result.returncode, 0)
+    self.assertIn('Use --retain-source-contact', result.stderr)
+    self.assertEqual(self.git('status', '--porcelain').stdout, '')
+
+  def test_any_owner_can_explicitly_keep_monitored_contacts(self):
+    result = self.helper('configure', '--repository', 'example/project',
+                         '--security-email', 'perrinaustin@gmail.com',
+                         '--conduct-email', 'perrinaustin@gmail.com',
+                         '--retain-source-contact', '--apply')
+    self.assertIn('Setup changes applied', result.stdout)
+    (self.root / 'README.md').write_text('# New Project\n\nProject overview.\n')
+    (self.root / '.github/CODEOWNERS').write_text(
+      '# Project owners\n* @example\n/.github/CODEOWNERS @example\n')
+    refused = self.helper('finish', check=False)
+    self.assertNotEqual(refused.returncode, 0)
+    self.assertIn('Use --retain-source-contact', refused.stderr)
+    preview = self.helper('finish', '--retain-source-contact')
+    self.assertIn('Would remove: docs/runbooks/initialize-repository.md', preview.stdout)
+    self.helper('finish', '--retain-source-contact', '--apply')
+    self.assertIn('perrinaustin@gmail.com', (self.root / 'SECURITY.md').read_text())
+
+  def test_same_owner_can_explicitly_keep_monitored_contact(self):
+    self.git('remote', 'set-url', 'origin', 'https://github.com/austinperrin/new-project.git')
+    preview = self.helper('configure', '--repository', 'austinperrin/new-project',
+                          '--security-email', 'perrinaustin@gmail.com',
+                          '--conduct-email', 'conduct@example.test',
+                          '--retain-source-contact')
+    self.assertNotIn('Would update: SECURITY.md', preview.stdout)
+    result = self.helper('configure', '--repository', 'austinperrin/new-project',
+                         '--security-email', 'perrinaustin@gmail.com',
+                         '--conduct-email', 'conduct@example.test',
+                         '--retain-source-contact', '--apply')
+    self.assertIn('Setup changes applied', result.stdout)
+
+  def test_unneeded_retain_contact_flag_is_rejected(self):
+    result = self.configure('--retain-source-contact', check=False)
+    self.assertNotEqual(result.returncode, 0)
+    self.assertIn('requires a matching reporting address', result.stderr)
+    self.assertEqual(self.git('status', '--porcelain').stdout, '')
+
   def test_example_owners_block_finish(self):
     self.configure('--apply')
     (self.root / 'README.md').write_text('# Example Project\n')

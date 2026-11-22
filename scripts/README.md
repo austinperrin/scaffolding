@@ -42,7 +42,8 @@ record and removal of one-time files. Each stage requires `--apply` to write
 changes. The helper checks the destination GitHub remote, refuses modified
 removal candidates, and checks documentation after applying changes. It leaves
 the root README, review owners, ADR outcomes, and live repository settings for
-the maintainer to resolve.
+the maintainer to resolve. To keep the monitored scaffold reporting address, pass
+`--retain-source-contact` to both `configure` and `finish`.
 
 ## ADR Generation
 

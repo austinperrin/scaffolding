@@ -115,15 +115,18 @@ def validate_email(value):
     raise ValueError('Enter a single email address without spaces or markup.')
 
 
-def configure_plan(repository, security_email, conduct_email):
+def configure_plan(repository, security_email, conduct_email, retain_source_contact=False):
   if not re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', repository):
     raise ValueError('Use OWNER/REPOSITORY for --repository.')
   if repository.lower() != repository_root().lower():
     raise ValueError('--repository must match the origin remote.')
   validate_email(security_email)
   validate_email(conduct_email)
-  if SOURCE_EMAIL in (security_email, conduct_email):
-    raise ValueError('Replace the foundation reporting address with a project contact.')
+  retains_contact = SOURCE_EMAIL in (security_email, conduct_email)
+  if retains_contact and not retain_source_contact:
+    raise ValueError('Use --retain-source-contact to keep the scaffold reporting address.')
+  if retain_source_contact and not retains_contact:
+    raise ValueError('--retain-source-contact requires a matching reporting address.')
   destination = f'https://github.com/{repository}'
   plan = {
     name: replace_count(name, SOURCE_URL, destination, count)
@@ -131,7 +134,9 @@ def configure_plan(repository, security_email, conduct_email):
   }
   for name, address in (('SECURITY.md', security_email),
                         ('CODE_OF_CONDUCT.md', conduct_email)):
-    plan[name] = replace_count(name, SOURCE_EMAIL, address, 2)
+    updated = replace_count(name, SOURCE_EMAIL, address, 2)
+    if updated != read_file(name):
+      plan[name] = updated
   return plan
 
 
@@ -143,7 +148,7 @@ def tracked_and_unchanged(name):
   read_file(name)
 
 
-def finish_plan(setup_date):
+def finish_plan(setup_date, retain_source_contact=False):
   repository = repository_root()
   for name in REMOVALS:
     tracked_and_unchanged(name)
@@ -152,9 +157,11 @@ def finish_plan(setup_date):
     content = read_file(name)
     if SOURCE_URL in content or content.count(destination) != count:
       raise ValueError(f'Confirm the new repository links in {name} before finishing.')
-  for name in EMAIL_FILES:
-    if SOURCE_EMAIL in read_file(name):
-      raise ValueError('Replace source reporting contacts before finishing setup.')
+  retains_contact = any(SOURCE_EMAIL in read_file(name) for name in EMAIL_FILES)
+  if retains_contact and not retain_source_contact:
+    raise ValueError('Use --retain-source-contact to keep the scaffold reporting address.')
+  if retain_source_contact and not retains_contact:
+    raise ValueError('--retain-source-contact requires a matching reporting address.')
   readme = read_file('README.md')
   if ('# Repository Scaffolding' in readme or 'initialize-repository.md' in readme
       or any(alias in readme for alias in SOURCE_ALIASES)):
@@ -210,7 +217,8 @@ def finish_plan(setup_date):
     'changes. The helper checks the destination GitHub remote, refuses modified\n'
     'removal candidates, and checks documentation after applying changes. It leaves\n'
     'the root README, review owners, ADR outcomes, and live repository settings for\n'
-    'the maintainer to resolve.\n\n'
+    'the maintainer to resolve. To keep the monitored scaffold reporting address, pass\n'
+    '`--retain-source-contact` to both `configure` and `finish`.\n\n'
   )
   if content.count(section) != 1:
     raise ValueError('The script-reference setup section changed; review it manually.')
@@ -288,15 +296,20 @@ def main():
   configure.add_argument('--repository', required=True, help='New GitHub OWNER/REPOSITORY')
   configure.add_argument('--security-email', required=True)
   configure.add_argument('--conduct-email', required=True)
+  configure.add_argument('--retain-source-contact', action='store_true',
+                         help='Explicitly keep the monitored scaffold reporting address')
   configure.add_argument('--apply', action='store_true', help='Apply the previewed changes')
   finish = commands.add_parser('finish', help='Remove one-time source records and setup files')
+  finish.add_argument('--retain-source-contact', action='store_true',
+                      help='Confirm the monitored scaffold reporting address is still intended')
   finish.add_argument('--apply', action='store_true', help='Apply the previewed changes')
   args = parser.parse_args()
   if args.command == 'configure':
-    plan = configure_plan(args.repository, args.security_email, args.conduct_email)
+    plan = configure_plan(args.repository, args.security_email, args.conduct_email,
+                          args.retain_source_contact)
   else:
     setup_date = datetime.now(ZoneInfo('America/Chicago')).date().isoformat()
-    plan = finish_plan(setup_date)
+    plan = finish_plan(setup_date, args.retain_source_contact)
     print(f'Milestone 0 actual start and end: {setup_date} (America/Chicago)')
   for name, content in plan.items():
     action = 'remove' if content is None else 'update'
