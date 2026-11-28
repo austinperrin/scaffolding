@@ -89,7 +89,7 @@ navigation and automation.
 
 | Area | Reviewed evidence and limits |
 | :--- | :--- |
-| Live repository controls | The [Phase 6 verification record](../architecture/phase-6-verification.md) records settings, successful jobs, the rejected PR-title case, and maintainer-approved follow-ups. Those follow-ups are assigned for later observation, not recorded as passing. |
+| Live repository controls | The [scaffold repository verification record](../architecture/scaffold-verification.md) records settings, successful jobs, the rejected PR-title case, and maintainer-approved follow-ups. Those follow-ups are assigned for later observation, not recorded as passing. |
 | Maintenance procedures | PRs #10–#13 established the runbooks, helper, release-note configuration, and labels. The [Phase 7 push run](https://github.com/austinperrin/scaffolding/actions/runs/42828334015) passed for the reviewed merged commit. No version tag or release was created by the readiness check. |
 | Project setup path | PRs #15–#19 introduced and checked the initialization workflow. A representative project copy passed local setup and repository checks; that copy did not verify live GitHub settings. |
 | Final foundation | PRs #20–#22 completed the assembled checks and project-ready wording. The clean source checkout passed the local suite; the [final hosted run](https://github.com/austinperrin/scaffolding/actions/runs/43125044915) passed Linux, macOS, and external-check jobs. A fresh project copy passed setup and local checks. Its GitHub controls still require project-specific verification. |
@@ -104,7 +104,7 @@ for the project to decide. [ADR-0004](../adr/0004-release-versioning.md) leaves
 release versioning open until publication needs are known.
 [ADR-0003](../adr/0003-enforce-repository-quality-checks.md) records the accepted
 quality-checking approach; live controls still need verification in each new
-repository. The Phase 6 record owns its accepted verification follow-ups.
+repository. The scaffold verification record owns its accepted follow-ups.
 
 Plan the next project goal using the [milestone planning template](milestone-template.md).
 Run the [project initialization](../runbooks/initialize-repository.md) and
@@ -115,5 +115,5 @@ repository before treating its settings as verified.
 
 - [Roadmap index](README.md) - Milestone status and project continuation.
 - [Milestone planning template](milestone-template.md) - Structure for the next outcome.
-- [Phase 6 verification record](../architecture/phase-6-verification.md) - Live source-repository evidence and follow-ups.
+- [Scaffold repository verification record](../architecture/scaffold-verification.md) - Live source-repository evidence and follow-ups.
 - [Architecture Decision Records (ADRs) index](../adr/README.md) - Accepted and Proposed decisions.

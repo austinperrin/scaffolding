@@ -21,7 +21,7 @@ URL_FILES = {
 }
 EMAIL_FILES = ('SECURITY.md', 'CODE_OF_CONDUCT.md')
 REMOVALS = (
-  'docs/architecture/phase-6-verification.md',
+  'docs/architecture/scaffold-verification.md',
   'docs/runbooks/initialize-repository.md',
   'scripts/dev/initialize-project.py',
   'scripts/dev/tests/test_initialize_project.py',
@@ -172,7 +172,7 @@ def finish_plan(setup_date, retain_source_contact=False):
 
   plan = {}
   name = 'docs/architecture/README.md'
-  row = '| [Phase 6 verification record](phase-6-verification.md) | Historical foundation results and remaining verification cases |\n'
+  row = '| [Scaffold repository verification](scaffold-verification.md) | Historical scaffold results and remaining verification cases |\n'
   plan[name] = replace_count(name, row, '', 1)
 
   name = 'docs/roadmap/milestone-0-repository-scaffolding.md'
@@ -255,7 +255,7 @@ def finish_plan(setup_date, retain_source_contact=False):
       if content is None and name in plan:
         continue
       content = content if content is not None else path.read_text(encoding='utf-8')
-      if 'phase-6-verification.md' in content:
+      if 'scaffold-verification.md' in content:
         raise ValueError(f'An incoming verification-record link remains in {name}.')
       if 'initialize-repository.md' in content:
         raise ValueError(f'An incoming initialization-runbook link remains in {name}.')

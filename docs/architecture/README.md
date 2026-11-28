@@ -9,7 +9,7 @@ This index describes implemented repository tooling and its boundaries.
 | Document | Scope |
 | :--- | :--- |
 | [Repository settings and verification](repository-settings.md) | Required checks, review and merge controls, and live verification evidence |
-| [Phase 6 verification record](phase-6-verification.md) | Historical foundation results and remaining verification cases |
+| [Scaffold repository verification](scaffold-verification.md) | Historical scaffold results and remaining verification cases |
 | [Local repository checks](repository-checks.md) | Commands, coverage, and limits for built-in checks |
 | [External checks and installation](external-checks.md) | Pinned tools, installation, and scan coverage |
 | [CI workflows and enforcement](ci-cd.md) | Hosted workflow behavior and enforcement status |
