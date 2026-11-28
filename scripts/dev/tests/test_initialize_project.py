@@ -81,13 +81,13 @@ class ProjectInitializationTests(unittest.TestCase):
     self.assertIn('conduct@example.test',
                   (self.root / 'CODE_OF_CONDUCT.md').read_text())
     preview = self.helper('finish')
-    self.assertIn('Would remove: docs/architecture/phase-6-verification.md', preview.stdout)
+    self.assertIn('Would remove: docs/architecture/scaffold-verification.md', preview.stdout)
     self.assertIn('Milestone 0 actual start and end:', preview.stdout)
-    self.assertTrue((self.root / 'docs/architecture/phase-6-verification.md').exists())
+    self.assertTrue((self.root / 'docs/architecture/scaffold-verification.md').exists())
     date_before = datetime.now(ZoneInfo('America/Chicago')).date().isoformat()
     self.helper('finish', '--apply')
     date_after = datetime.now(ZoneInfo('America/Chicago')).date().isoformat()
-    for name in ('docs/architecture/phase-6-verification.md',
+    for name in ('docs/architecture/scaffold-verification.md',
                  'docs/runbooks/initialize-repository.md',
                  'scripts/dev/initialize-project.py',
                  'scripts/dev/tests/test_initialize_project.py'):
@@ -110,7 +110,7 @@ class ProjectInitializationTests(unittest.TestCase):
     self.assertNotIn('|  | [Phase 0:', roadmap)
     self.assertNotIn('austinperrin/scaffolding', milestone)
     self.assertNotIn('austinperrin/base', milestone)
-    self.assertNotIn('phase-6-verification.md', milestone)
+    self.assertNotIn('scaffold-verification.md', milestone)
     self.assertNotIn('PRs #', milestone)
     self.assertNotIn('foundation', (self.root / 'docs/runbooks/configure-github.md').read_text())
     for path in self.root.rglob('*.md'):
@@ -122,7 +122,7 @@ class ProjectInitializationTests(unittest.TestCase):
 
   def test_modified_removal_candidate_blocks_finish(self):
     self.prepare_finish()
-    record = self.root / 'docs/architecture/phase-6-verification.md'
+    record = self.root / 'docs/architecture/scaffold-verification.md'
     record.write_text(record.read_text() + '\nProject note.\n')
     result = self.helper('finish', '--apply', check=False)
     self.assertNotEqual(result.returncode, 0)
@@ -198,7 +198,7 @@ class ProjectInitializationTests(unittest.TestCase):
     result = self.helper('finish', '--apply', check=False)
     self.assertNotEqual(result.returncode, 0)
     self.assertIn('CODEOWNERS', result.stderr)
-    self.assertTrue((self.root / 'docs/architecture/phase-6-verification.md').exists())
+    self.assertTrue((self.root / 'docs/architecture/scaffold-verification.md').exists())
 
   def test_wrong_destination_link_blocks_finish(self):
     self.prepare_finish()
@@ -207,7 +207,7 @@ class ProjectInitializationTests(unittest.TestCase):
     result = self.helper('finish', '--apply', check=False)
     self.assertNotEqual(result.returncode, 0)
     self.assertIn('Confirm the new repository links', result.stderr)
-    self.assertTrue((self.root / 'docs/architecture/phase-6-verification.md').exists())
+    self.assertTrue((self.root / 'docs/architecture/scaffold-verification.md').exists())
 
   def test_failed_link_check_restores_all_cleanup_candidates(self):
     self.prepare_finish()
@@ -215,7 +215,7 @@ class ProjectInitializationTests(unittest.TestCase):
     result = self.helper('finish', '--apply', check=False)
     self.assertNotEqual(result.returncode, 0)
     self.assertIn('check-links.sh failed', result.stderr)
-    self.assertTrue((self.root / 'docs/architecture/phase-6-verification.md').exists())
+    self.assertTrue((self.root / 'docs/architecture/scaffold-verification.md').exists())
     self.assertTrue((self.root / 'scripts/dev/initialize-project.py').exists())
     self.assertIn('initialize-repository.md',
                   (self.root / 'docs/runbooks/README.md').read_text())

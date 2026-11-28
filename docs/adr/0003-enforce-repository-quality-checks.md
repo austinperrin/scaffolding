@@ -92,7 +92,7 @@ commands in the owning reference; decision approval does not establish enforceme
 | External linters and configuration | Dependency evaluation, recorded tool and rule versions, selected severities and scan scopes, reproducible installation, and representative failure cases |
 | CI integration and dependency updates | Pinned third-party actions, limited permissions, safe handling of contribution code, local/CI command alignment, and successful runs on the intended commits |
 | Repository settings checklist | Required checks and review/merge controls verified in the target repository, with feature availability and setup steps documented |
-| Adoption verification | Project-specific values replaced and checks exercised in a representative initialized project |
+| Repository setup verification | Repository-specific values and checks exercised in a representative clean checkout |
 
 Follow the [dependency standard](../standards/dependencies.md) when selecting tools
 and actions. Keep implementation status in the [roadmap](../roadmap/README.md) and

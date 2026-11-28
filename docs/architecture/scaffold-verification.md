@@ -1,6 +1,6 @@
-# Phase 6 Verification Record
+# Scaffold Repository Verification
 
-[Docs](../README.md) > [Architecture](README.md) > Phase 6 Verification
+[Docs](../README.md) > [Architecture](README.md) > Scaffold Repository Verification
 
 This record contains verification evidence for `austinperrin/scaffolding` from
 the initial review on 2026-11-09 and follow-up observations through 2026-11-17.

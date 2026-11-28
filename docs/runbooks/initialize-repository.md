@@ -129,7 +129,7 @@ documentation after setup.
     `--retain-source-contact` to this preview and the `--apply` command. Review
     the exact updates and removals, then repeat with `--apply`. This removes
     the one-time runbook and helper, its tests, and the original scaffold's
-    Phase 6 verification record; it updates their incoming links and replaces
+    repository verification record; it updates their incoming links and replaces
     Milestone 0 with the project-owned setup summary. The helper
     refuses modified removal candidates or unexpected incoming links, and rolls
     back its changes if documentation checks fail.
